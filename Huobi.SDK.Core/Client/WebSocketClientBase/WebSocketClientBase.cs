@@ -29,8 +29,8 @@ namespace Huobi.SDK.Core.Client.WebSocketClientBase
         private Timer _timer;
         private const int TIMER_INTERVAL_SECOND = 5;
         private DateTime _lastReceivedTime;
-        private const int RECONNECT_WAIT_SECOND = 60;
-        private const int RENEW_WAIT_SECOND = 120;
+        private const int RECONNECT_WAIT_SECOND = 10;
+        private const int RENEW_WAIT_SECOND = 20;
 
         /// <summary>
         /// Constructor

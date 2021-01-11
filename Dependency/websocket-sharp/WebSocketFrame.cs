@@ -471,8 +471,9 @@ Extended Payload Length: {7}
     private static WebSocketFrame processHeader (byte[] header)
     {
       if (header.Length != 2) {
-        var msg = "The header part of a frame could not be read.";
-        throw new WebSocketException (msg);
+        //var msg = "The header part of a frame could not be read.";
+        //throw new WebSocketException (msg);
+        return null;
       }
 
       // FIN
@@ -784,29 +785,33 @@ Extended Payload Length: {7}
       readHeaderAsync (
         stream,
         frame =>
-          readExtendedPayloadLengthAsync (
-            stream,
-            frame,
-            frame1 =>
-              readMaskingKeyAsync (
-                stream,
-                frame1,
-                frame2 =>
-                  readPayloadDataAsync (
-                    stream,
-                    frame2,
-                    frame3 => {
-                      if (unmask)
-                        frame3.Unmask ();
+        {
+            if (frame != null)
+                readExtendedPayloadLengthAsync(
+                  stream,
+                  frame,
+                  frame1 =>
+                    readMaskingKeyAsync(
+                      stream,
+                      frame1,
+                      frame2 =>
+                        readPayloadDataAsync(
+                          stream,
+                          frame2,
+                          frame3 =>
+                          {
+                              if (unmask)
+                                  frame3.Unmask();
 
-                      completed (frame3);
-                    },
-                    error
-                  ),
-                error
-              ),
-            error
-          ),
+                              completed(frame3);
+                          },
+                          error
+                        ),
+                      error
+                    ),
+                  error
+                );
+        },
         error
       );
     }
