@@ -361,13 +361,13 @@ namespace WebSocketSharp
         }
 
         if (!canSet (out msg)) {
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
           return;
         }
 
         lock (_forState) {
           if (!canSet (out msg)) {
-            UnityEngine.Debug.LogWarning (msg);
+            //UnityEngine.Debug.LogWarning (msg);
             return;
           }
 
@@ -473,13 +473,13 @@ namespace WebSocketSharp
         }
 
         if (!canSet (out msg)) {
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
           return;
         }
 
         lock (_forState) {
           if (!canSet (out msg)) {
-            UnityEngine.Debug.LogWarning (msg);
+            //UnityEngine.Debug.LogWarning (msg);
             return;
           }
 
@@ -602,13 +602,13 @@ namespace WebSocketSharp
         }
 
         if (!canSet (out msg)) {
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
           return;
         }
 
         lock (_forState) {
           if (!canSet (out msg)) {
-            UnityEngine.Debug.LogWarning (msg);
+            //UnityEngine.Debug.LogWarning (msg);
             return;
           }
 
@@ -736,13 +736,13 @@ namespace WebSocketSharp
 
         string msg;
         if (!canSet (out msg)) {
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
           return;
         }
 
         lock (_forState) {
           if (!canSet (out msg)) {
-            UnityEngine.Debug.LogWarning (msg);
+            //UnityEngine.Debug.LogWarning (msg);
             return;
           }
 
@@ -784,7 +784,7 @@ namespace WebSocketSharp
     {
       if (_readyState == WebSocketState.Open) {
         var msg = "The handshake request has already been accepted.";
-        UnityEngine.Debug.LogWarning (msg);
+        //UnityEngine.Debug.LogWarning (msg);
 
         return false;
       }
@@ -792,14 +792,14 @@ namespace WebSocketSharp
       lock (_forState) {
         if (_readyState == WebSocketState.Open) {
           var msg = "The handshake request has already been accepted.";
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
 
           return false;
         }
 
         if (_readyState == WebSocketState.Closing) {
           var msg = "The close process has set in.";
-         UnityEngine.Debug.LogError(msg);
+         //UnityEngine.Debug.LogError(msg);
 
           msg = "An interruption has occurred while attempting to accept.";
           error (msg, null);
@@ -809,7 +809,7 @@ namespace WebSocketSharp
 
         if (_readyState == WebSocketState.Closed) {
           var msg = "The connection has been closed.";
-                    UnityEngine.Debug.LogError (msg);
+                    //UnityEngine.Debug.LogError (msg);
 
           msg = "An interruption has occurred while attempting to accept.";
           error (msg, null);
@@ -822,7 +822,7 @@ namespace WebSocketSharp
             return false;
         }
         catch (Exception ex) {
-                    UnityEngine.Debug.LogError(ex.Message);
+                    //UnityEngine.Debug.LogError(ex.Message);
 
           var msg = "An exception has occurred while attempting to accept.";
           fatal (msg, ex);
@@ -838,7 +838,7 @@ namespace WebSocketSharp
     // As server
     private bool acceptHandshake ()
     {
-      //      UnityEngine.Debug.Log(
+      //      //UnityEngine.Debug.Log(
       //  String.Format (
       //    "A handshake request from {0}:\n{1}", _context.UserEndPoint, _context
       //  )
@@ -846,7 +846,7 @@ namespace WebSocketSharp
 
       string msg;
       if (!checkHandshakeRequest (_context, out msg)) {
-                UnityEngine.Debug.LogError (msg);
+                //UnityEngine.Debug.LogError (msg);
 
         refuseHandshake (
           CloseStatusCode.ProtocolError,
@@ -857,7 +857,7 @@ namespace WebSocketSharp
       }
 
       if (!customCheckHandshakeRequest (_context, out msg)) {
-                UnityEngine.Debug.LogError(msg);
+                //UnityEngine.Debug.LogError(msg);
 
         refuseHandshake (
           CloseStatusCode.PolicyViolation,
@@ -1116,7 +1116,7 @@ namespace WebSocketSharp
         OnClose.Emit (this, e);
       }
       catch (Exception ex) {
-                UnityEngine.Debug.LogError (ex.Message);
+                //UnityEngine.Debug.LogError (ex.Message);
                 error(ex.Message, ex);
         //_logger.Debug (ex.ToString ());
       }
@@ -1163,7 +1163,7 @@ namespace WebSocketSharp
 
       var ret = sent && received;
 
-      //      UnityEngine.Debug.Log(
+      //      //UnityEngine.Debug.Log(
       //  String.Format (
       //    "Was clean?: {0}\n  sent: {1}\n  received: {2}", ret, sent, received
       //  )
@@ -1191,7 +1191,7 @@ namespace WebSocketSharp
 
       var ret = sent && received;
 
-      //      UnityEngine.Debug.Log(
+      //      //UnityEngine.Debug.Log(
       //  String.Format (
       //    "Was clean?: {0}\n  sent: {1}\n  received: {2}", ret, sent, received
       //  )
@@ -1205,7 +1205,7 @@ namespace WebSocketSharp
     {
       if (_readyState == WebSocketState.Open) {
         var msg = "The connection has already been established.";
-        UnityEngine.Debug.LogWarning (msg);
+        //UnityEngine.Debug.LogWarning (msg);
 
         return false;
       }
@@ -1213,14 +1213,14 @@ namespace WebSocketSharp
       lock (_forState) {
         if (_readyState == WebSocketState.Open) {
           var msg = "The connection has already been established.";
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
 
           return false;
         }
 
         if (_readyState == WebSocketState.Closing) {
           var msg = "The close process has set in.";
-                    UnityEngine.Debug.LogError (msg);
+                    //UnityEngine.Debug.LogError (msg);
 
           msg = "An interruption has occurred while attempting to connect.";
           error (msg, null);
@@ -1230,7 +1230,7 @@ namespace WebSocketSharp
 
         if (_retryCountForConnect > _maxRetryCountForConnect) {
           var msg = "An opportunity for reconnecting has been lost.";
-                    UnityEngine.Debug.LogError (msg);
+                    //UnityEngine.Debug.LogError (msg);
 
           msg = "An interruption has occurred while attempting to connect.";
           error (msg, null);
@@ -1246,7 +1246,7 @@ namespace WebSocketSharp
         catch (Exception ex) {
           _retryCountForConnect++;
 
-                    UnityEngine.Debug.LogError(ex.Message);
+                    //UnityEngine.Debug.LogError(ex.Message);
           //_logger.Debug (ex.ToString ());
 
           var msg = "An exception has occurred while attempting to connect.";
@@ -1462,7 +1462,7 @@ namespace WebSocketSharp
           OnMessage.Emit (this, e);
         }
         catch (Exception ex) {
-                    UnityEngine.Debug.LogError (ex.ToString ());
+                    //UnityEngine.Debug.LogError (ex.ToString ());
           error ("An error has occurred during an OnMessage event.", ex);
         }
 
@@ -1484,7 +1484,7 @@ namespace WebSocketSharp
         OnMessage.Emit (this, e);
       }
       catch (Exception ex) {
-                UnityEngine.Debug.LogError (ex.ToString ());
+                //UnityEngine.Debug.LogError (ex.ToString ());
         error ("An error has occurred during an OnMessage event.", ex);
       }
 
@@ -1607,13 +1607,13 @@ namespace WebSocketSharp
 
     private bool processPingFrame (WebSocketFrame frame)
     {
-      //UnityEngine.Debug.Log.Trace ("A ping was received.");
+      ////UnityEngine.Debug.Log.Trace ("A ping was received.");
 
       var pong = WebSocketFrame.CreatePongFrame (frame.PayloadData, _client);
 
       lock (_forState) {
         if (_readyState != WebSocketState.Open) {
-                    UnityEngine.Debug.LogError ("The connection is closing.");
+                    //UnityEngine.Debug.LogError ("The connection is closing.");
           return true;
         }
 
@@ -1641,14 +1641,14 @@ namespace WebSocketSharp
         _pongReceived.Set ();
       }
       catch (NullReferenceException ex) {
-                UnityEngine.Debug.LogError (ex.Message);
+                //UnityEngine.Debug.LogError (ex.Message);
                 //_logger.Debug (ex.ToString ());
                 error(ex.Message, ex);
 
         return false;
       }
       catch (ObjectDisposedException ex) {
-                UnityEngine.Debug.LogError (ex.Message);
+                //UnityEngine.Debug.LogError (ex.Message);
                 //_logger.Debug (ex.ToString ());
                 error(ex.Message, ex);
 
@@ -1742,7 +1742,7 @@ namespace WebSocketSharp
 
     private bool processUnsupportedFrame (WebSocketFrame frame)
     {
-            UnityEngine.Debug.LogError("An unsupported frame:" + frame.PrintToString (false));
+            //UnityEngine.Debug.LogError("An unsupported frame:" + frame.PrintToString (false));
       fatal ("There is no way to handle it.", CloseStatusCode.PolicyViolation);
 
       return false;
@@ -1766,7 +1766,7 @@ namespace WebSocketSharp
         OnClose.Emit (this, e);
       }
       catch (Exception ex) {
-                UnityEngine.Debug.LogError (ex.Message);
+                //UnityEngine.Debug.LogError (ex.Message);
                 //_logger.Debug (ex.ToString ());
                 error(ex.Message, ex);
       }
@@ -1844,7 +1844,7 @@ namespace WebSocketSharp
             error ("A send has been interrupted.", null);
         }
         catch (Exception ex) {
-                    UnityEngine.Debug.LogError (ex.ToString ());
+                    //UnityEngine.Debug.LogError (ex.ToString ());
           error ("An error has occurred during a send.", ex);
         }
         finally {
@@ -1913,7 +1913,7 @@ namespace WebSocketSharp
     {
       lock (_forState) {
         if (_readyState != WebSocketState.Open) {
-                    UnityEngine.Debug.LogError ("The connection is closing.");
+                    //UnityEngine.Debug.LogError ("The connection is closing.");
           return false;
         }
 
@@ -1935,7 +1935,7 @@ namespace WebSocketSharp
               completed (sent);
           }
           catch (Exception ex) {
-                UnityEngine.Debug.LogError (ex.ToString ());
+                //UnityEngine.Debug.LogError (ex.ToString ());
             error (
               "An error has occurred during the callback for an async send.",
               ex
@@ -1952,7 +1952,7 @@ namespace WebSocketSharp
         _stream.Write (bytes, 0, bytes.Length);
       }
       catch (Exception ex) {
-                //UnityEngine.Debug.LogError (ex.Message);
+                ////UnityEngine.Debug.LogError (ex.Message);
                 //_logger.Debug (ex.ToString ());
                 error(ex.Message, ex);
 
@@ -1969,15 +1969,15 @@ namespace WebSocketSharp
       var res = sendHttpRequest (req, 90000);
       if (res.IsUnauthorized) {
         var chal = res.Headers["WWW-Authenticate"];
-        UnityEngine.Debug.LogWarning (String.Format ("Received an authentication requirement for '{0}'.", chal));
+        //UnityEngine.Debug.LogWarning (String.Format ("Received an authentication requirement for '{0}'.", chal));
         if (chal.IsNullOrEmpty ()) {
-                    UnityEngine.Debug.LogError ("No authentication challenge is specified.");
+                    //UnityEngine.Debug.LogError ("No authentication challenge is specified.");
           return res;
         }
 
         _authChallenge = AuthenticationChallenge.Parse (chal);
         if (_authChallenge == null) {
-                    UnityEngine.Debug.LogError ("An invalid authentication challenge is specified.");
+                    //UnityEngine.Debug.LogError ("An invalid authentication challenge is specified.");
           return res;
         }
 
@@ -1997,17 +1997,17 @@ namespace WebSocketSharp
 
       if (res.IsRedirect) {
         var url = res.Headers["Location"];
-        UnityEngine.Debug.LogWarning (String.Format ("Received a redirection to '{0}'.", url));
+        //UnityEngine.Debug.LogWarning (String.Format ("Received a redirection to '{0}'.", url));
         if (_enableRedirection) {
           if (url.IsNullOrEmpty ()) {
-                        UnityEngine.Debug.LogError ("No url to redirect is located.");
+                        //UnityEngine.Debug.LogError ("No url to redirect is located.");
             return res;
           }
 
           Uri uri;
           string msg;
           if (!url.TryCreateWebSocketUri (out uri, out msg)) {
-                        UnityEngine.Debug.LogError ("An invalid url to redirect is located: " + msg);
+                        //UnityEngine.Debug.LogError ("An invalid url to redirect is located: " + msg);
             return res;
           }
 
@@ -2053,8 +2053,8 @@ namespace WebSocketSharp
       var res = sendHttpRequest (req, 90000);
       if (res.IsProxyAuthenticationRequired) {
         var chal = res.Headers["Proxy-Authenticate"];
-        UnityEngine.Debug.LogWarning (
-          String.Format ("Received a proxy authentication requirement for '{0}'.", chal));
+        //UnityEngine.Debug.LogWarning (
+          //String.Format ("Received a proxy authentication requirement for '{0}'.", chal));
 
         if (chal.IsNullOrEmpty ())
           error("", new WebSocketException ("No proxy authentication challenge is specified."));
@@ -2184,12 +2184,12 @@ namespace WebSocketSharp
         var ext = e.Trim ();
         if (comp && ext.IsCompressionExtension (_compression)) {
           if (!ext.Contains ("server_no_context_takeover")) {
-                        UnityEngine.Debug.LogError ("The server hasn't sent back 'server_no_context_takeover'.");
+                        //UnityEngine.Debug.LogError ("The server hasn't sent back 'server_no_context_takeover'.");
             return false;
           }
 
-          if (!ext.Contains ("client_no_context_takeover"))
-            UnityEngine.Debug.LogWarning ("The server hasn't sent back 'client_no_context_takeover'.");
+          //if (!ext.Contains ("client_no_context_takeover"))
+            //UnityEngine.Debug.LogWarning ("The server hasn't sent back 'client_no_context_takeover'.");
 
           var method = _compression.ToExtensionString ();
           var invalid =
@@ -2278,7 +2278,7 @@ namespace WebSocketSharp
 
       var res = sent && received;
 
-      //      UnityEngine.Debug.Log(
+      //      //UnityEngine.Debug.Log(
       //  String.Format (
       //    "Was clean?: {0}\n  sent: {1}\n  received: {2}", res, sent, received
       //  )
@@ -2297,7 +2297,7 @@ namespace WebSocketSharp
         OnClose.Emit (this, e);
       }
       catch (Exception ex) {
-                UnityEngine.Debug.LogError (ex.Message);
+                //UnityEngine.Debug.LogError (ex.Message);
                 //_logger.Debug (ex.ToString ());
                 error(ex.Message, ex);
       }
@@ -2330,7 +2330,7 @@ namespace WebSocketSharp
           return;
       }
       catch (Exception ex) {
-                UnityEngine.Debug.LogError(ex.Message);
+                //UnityEngine.Debug.LogError(ex.Message);
         //_logger.Debug (ex.ToString ());
 
         var msg = "An exception has occurred while attempting to accept.";
@@ -2382,7 +2382,7 @@ namespace WebSocketSharp
       lock (_forSend) {
         lock (_forState) {
           if (_readyState != WebSocketState.Open) {
-                        UnityEngine.Debug.LogError ("The connection is closing.");
+                        //UnityEngine.Debug.LogError ("The connection is closing.");
             return;
           }
 
@@ -3492,12 +3492,12 @@ namespace WebSocketSharp
       }
 
       if (len < length) {
-        UnityEngine.Debug.LogWarning (
-          String.Format (
-            "Only {0} byte(s) of data could be read from the stream.",
-            len
-          )
-        );
+        //UnityEngine.Debug.LogWarning (
+        //  String.Format (
+        //    "Only {0} byte(s) of data could be read from the stream.",
+        //    len
+        //  )
+        //);
       }
 
       send (Opcode.Binary, new MemoryStream (bytes));
@@ -3745,12 +3745,12 @@ namespace WebSocketSharp
       }
 
       if (len < length) {
-        UnityEngine.Debug.LogWarning (
-          String.Format (
-            "Only {0} byte(s) of data could be read from the stream.",
-            len
-          )
-        );
+        //UnityEngine.Debug.LogWarning (
+          //String.Format (
+          //  "Only {0} byte(s) of data could be read from the stream.",
+          //  len
+          //)
+        //);
       }
 
       sendAsync (Opcode.Binary, new MemoryStream (bytes), completed);
@@ -3785,13 +3785,13 @@ namespace WebSocketSharp
         error("", new ArgumentNullException ("cookie"));
 
       if (!canSet (out msg)) {
-        UnityEngine.Debug.LogWarning (msg);
+        //UnityEngine.Debug.LogWarning (msg);
         return;
       }
 
       lock (_forState) {
         if (!canSet (out msg)) {
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
           return;
         }
 
@@ -3868,13 +3868,13 @@ namespace WebSocketSharp
       }
 
       if (!canSet (out msg)) {
-        UnityEngine.Debug.LogWarning (msg);
+        //UnityEngine.Debug.LogWarning (msg);
         return;
       }
 
       lock (_forState) {
         if (!canSet (out msg)) {
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
           return;
         }
 
@@ -4008,13 +4008,13 @@ namespace WebSocketSharp
       }
 
       if (!canSet (out msg)) {
-        UnityEngine.Debug.LogWarning (msg);
+        //UnityEngine.Debug.LogWarning (msg);
         return;
       }
 
       lock (_forState) {
         if (!canSet (out msg)) {
-          UnityEngine.Debug.LogWarning (msg);
+          //UnityEngine.Debug.LogWarning (msg);
           return;
         }
 

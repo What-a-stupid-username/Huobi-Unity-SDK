@@ -15,7 +15,7 @@ namespace Huobi.SDK.Core.Client
     {
         void ErrorHandler(object sender, ErrorEventArgs e)
         {
-            UnityEngine.Debug.LogError(e.Message + "\n" + (e.Exception != null ? e.Exception.Message : ""));
+            //UnityEngine.Debug.LogError(e.Message + "\n" + (e.Exception != null ? e.Exception.Message : ""));
             throw e.Exception ?? new Exception("Unknown");
         }
 

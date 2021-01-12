@@ -40,7 +40,7 @@ namespace Huobi.SDK.Core
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError(e);
+                //UnityEngine.Debug.LogError(e);
                 throw;
             }
         }
@@ -65,7 +65,7 @@ namespace Huobi.SDK.Core
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError(e);
+                //UnityEngine.Debug.LogError(e);
                 throw;
             }
         }
@@ -107,7 +107,7 @@ namespace Huobi.SDK.Core
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError(e);
+                //UnityEngine.Debug.LogError(e);
                 throw;
             }
         }
