@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Huobi.SDK.Core.Client
 {
@@ -351,9 +352,10 @@ namespace Huobi.SDK.Core.Client
                 amount = -1;
             }
 
-            public void Cancel()
+            public void Cancel(System.Action<string> callback = null)
             {
-                orders.CancelOrder(id);
+                if (id != -1)
+                    orders.CancelOrder(id, callback);
             }
         }
 
@@ -371,10 +373,10 @@ namespace Huobi.SDK.Core.Client
         /// Cancel Order Async
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="action">failed callback, call when failed.</param>
-        public void CancelOrder(long id, System.Action<string> failed = null)
+        /// <param name="action">callback</param>
+        public void CancelOrder(long id, System.Action<string> callback = null)
         {
-            orderClient.CancelOrderByIdAsync(id.ToString(), (a, b, c) => { if (b != null) failed?.Invoke(b); });
+            orderClient.CancelOrderByIdAsync(id.ToString(), (a, b, c) => { callback?.Invoke(b); });
         }
 
         /// <summary>
@@ -393,9 +395,9 @@ namespace Huobi.SDK.Core.Client
                 var request = new Huobi.SDK.Model.Request.Order.PlaceOrderRequest()
                 {
                     AccountId = accountId,
-                    amount = amount.ToString(),
+                    amount = amount.ToString("0.0000"),
                     source = "spot-api",
-                    price = price < 0 ? "0" : price.ToString(),
+                    price = price < 0 ? "0" : price.ToString("0.0000"),
                     symbol = symbol,
                     type = type.ToString() + (price < 0 ? "-market" : "-limit")
                 };
@@ -425,7 +427,7 @@ namespace Huobi.SDK.Core.Client
                             }
                             else
                             {
-                                Console.WriteLine(ec + "\n" + em);
+                                Console.WriteLine/*UnityEngine.Debug.Log*/(ec + "\n" + em);
                                 callback?.Invoke(null);
                             }
                         });
@@ -449,12 +451,9 @@ namespace Huobi.SDK.Core.Client
             CancellationToken token = tokenSource.Token;
             await Task.Run(() =>
             {
-                while (true)
-                {
-                    if (token.IsCancellationRequested) return;
-
+                Action QueryAc = null;
+                QueryAc = () => {
                     orderClient.GetOpenOrdersAsync(new Huobi.SDK.Core.GetRequest(), (orders, errorCode, errorMsg) => {
-
                         List<Order> orders__ = new List<Order>();
                         foreach (var order in orders)
                         {
@@ -469,10 +468,12 @@ namespace Huobi.SDK.Core.Client
                             orders__.Add(o);
                         }
                         orders_ = orders__;
-                    });
 
-                    Thread.Sleep(orderUpdatePeriod);
-                }
+                        Thread.Sleep(orderUpdatePeriod);
+                        if (!token.IsCancellationRequested) QueryAc();
+                    });
+                };
+                QueryAc();
             });
         }
 
@@ -481,22 +482,29 @@ namespace Huobi.SDK.Core.Client
             tokenSource.Cancel();
         }
 
-        public OrderManager(string acc, string sec, int orderUpdatePeriod = 1000)
+        public OrderManager(string acc, string sec, int orderUpdatePeriod = 10)
         {
             this.orderUpdatePeriod = orderUpdatePeriod;
             HttpRequest.httpClient.Timeout = System.TimeSpan.FromSeconds(5);
             orderClient = new OrderClient(acc, sec);
 
+            CancellationToken token = tokenSource.Token;
             System.Action GetAcount = null;
             GetAcount = () =>
             {
                 AccountClient accountClient = new AccountClient(acc, sec);
                 accountClient.GetAccountInfoAsync((account, status) => {
-                    if (status != "ok") GetAcount();
+                    if (status != "ok")
+                    {
+                        /*Console.WriteLine*/
+                        UnityEngine.Debug.LogError("Order server connection faild! " + status);
+                        if (!token.IsCancellationRequested) GetAcount();
+                    }
                     else
                     {
                         accountId = account[0].id.ToString();
-                        Console.WriteLine("Order server connection finish.");
+                        /*Console.WriteLine*/
+                        UnityEngine.Debug.Log("Order server connection finish.");
                     }
                 });
             };
