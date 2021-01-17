@@ -395,13 +395,13 @@ namespace Huobi.SDK.Core.Client
                 var request = new Huobi.SDK.Model.Request.Order.PlaceOrderRequest()
                 {
                     AccountId = accountId,
-                    amount = amount.ToString("0.0000"),
+                    amount = amount,//.ToString("0.0000"),
                     source = "spot-api",
-                    price = price < 0 ? "0" : price.ToString("0.0000"),
+                    price = price < 0 ? /*"0"*/0 : price/*.ToString("0.0000")*/,
                     symbol = symbol,
                     type = type.ToString() + (price < 0 ? "-market" : "-limit")
                 };
-
+                
                 System.Action<int> task = null;
                 task = (remain) =>
                 {
@@ -422,12 +422,12 @@ namespace Huobi.SDK.Core.Client
                             }
                             else if (remain-- > 0)
                             {
-                                Console.WriteLine(ec + "\n" + em + "\nretry: " + remain);
+                                UnityEngine.Debug.Log(ec + "\n" + em + "\nretry: " + remain);
                                 task(remain);
                             }
                             else
                             {
-                                Console.WriteLine/*UnityEngine.Debug.Log*/(ec + "\n" + em);
+                                UnityEngine.Debug.Log(ec + "\n" + em);
                                 callback?.Invoke(null);
                             }
                         });
@@ -436,7 +436,7 @@ namespace Huobi.SDK.Core.Client
             }
             else
             {
-                Console.WriteLine("connection is invalid, try later");
+                UnityEngine.Debug.Log("connection is invalid, try later");
                 callback?.Invoke(null);
             }
         }
@@ -496,14 +496,12 @@ namespace Huobi.SDK.Core.Client
                 accountClient.GetAccountInfoAsync((account, status) => {
                     if (status != "ok")
                     {
-                        /*Console.WriteLine*/
                         UnityEngine.Debug.LogError("Order server connection faild! " + status);
                         if (!token.IsCancellationRequested) GetAcount();
                     }
                     else
                     {
                         accountId = account[0].id.ToString();
-                        /*Console.WriteLine*/
                         UnityEngine.Debug.Log("Order server connection finish.");
                     }
                 });

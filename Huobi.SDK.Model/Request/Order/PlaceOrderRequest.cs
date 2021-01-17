@@ -11,9 +11,9 @@ namespace Huobi.SDK.Model.Request.Order
 
         public string type;
 
-        public string amount;
+        public float amount;
 
-        public string price;
+        public float price;
 
         public string source;
 
